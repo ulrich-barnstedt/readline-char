@@ -24,4 +24,7 @@ input.block();
 
 //unblock all listeners
 input.unblock();
+
+//register a handler which is not effected by blocking
+input.bindUnblocked((key) => {console.log(key)});
 ```

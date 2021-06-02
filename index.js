@@ -3,6 +3,7 @@ const readline = require('readline');
 module.exports = class {
     constructor () {
         this.listeners = [];
+        this.unblockedListeners = [];
         this.cleanupHandlers = [];
         this.blocked = false;
 
@@ -12,6 +13,7 @@ module.exports = class {
                 process.exit();
             }
 
+            this.unblockedListeners.forEach(l => l(key));
             if (this.blocked) return;
             this.listeners.forEach(l => l(key));
         });
@@ -36,5 +38,9 @@ module.exports = class {
 
     unblock () {
         this.blocked = false;
+    }
+
+    bindUnblocked (fn) {
+        this.unblockedListeners.push(fn);
     }
 }
